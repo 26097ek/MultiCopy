@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "MultiCopy",
+  "version": "1.0",
+  "description": "A tool to copy multiple things.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "assets/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions":[
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "commands":{
+    "run-copy":{
+      "suggested_key": {
+        "default": "Alt+X"
+      },
+      "description": "Copy slot 1"
+    }
+  }
+}
