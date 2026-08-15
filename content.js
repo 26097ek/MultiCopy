@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     console.log(message)
     if (!message.msg.startsWith("MtCp_")) return;
     console.log("MSG Recived: " + message.msg)
-    if (message.pld) console.log("Payload: " + message.pld)
+    if (message.payload) console.log("Payload: " + message.payload)
     switch (message.msg) {
         case "MtCp_COPY":
             const text = copy();
@@ -12,7 +12,11 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             sendResponse({ status: "success", text: [text]});
             break;
         case "MtCp_VIEW":
-            view(message.payload)
+            console.log(message.payload)
+            const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+            const sliceIt = (str) => 
+                [...segmenter.segment(str)].slice(0, 15).map(s => s.segment).join('');
+            view([...message.payload].length<15?message.payload:(sliceIt(message.payload)+"..."))
             sendResponse({ status: "success", });
             break;
         case "MtCp_PSTE":
@@ -24,15 +28,6 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   
     return true; 
 });
-
-function globalConst(name, value) {
-    Object.defineProperty(globalThis, name, {
-        value: [value],
-        writable: false,
-        configurable: false,
-        enumerable: true
-    });
-}
 
 function copy() {
     const text = window.getSelection().toString();

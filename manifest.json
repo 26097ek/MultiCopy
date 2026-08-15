@@ -1,7 +1,8 @@
 {
   "manifest_version": 3,
   "name": "MultiCopy",
-  "version": "0.2",
+  "version": "0.1",
+  "version_name": "Indev",
   "description": "A tool to copy multiple things.",
   "action": {
     "default_popup": "popup.html",
