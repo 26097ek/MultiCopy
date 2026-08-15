@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MultiCopy",
-  "version": "1.0",
+  "version": "0.2",
   "description": "A tool to copy multiple things.",
   "action": {
     "default_popup": "popup.html",
@@ -22,11 +22,17 @@
     "scripting"
   ],
   "commands":{
-    "run-copy":{
+    "MtCp_Copy1":{
       "suggested_key": {
-        "default": "Alt+X"
+        "default": "Alt+Z"
       },
-      "description": "Copy slot 1"
+      "description": "Copy to slot 1"
+    },
+    "MtCp_View1":{
+      "suggested_key": {
+        "default": "Shift+Alt+Z"
+      },
+      "description": "View slot 1"
     }
   }
 }
