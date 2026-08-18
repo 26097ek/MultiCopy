@@ -1,8 +1,8 @@
 async function copyText (slot) {
     try{
-        const text = await sendMSG("MtCp_COPY");
+        const text = (await sendMSG("MtCp_COPY"))
         console.log(text);
-        await chrome.storage.session.set({[`S${slot}`]: text.text[0]})
+        if (text.text[0]) await chrome.storage.session.set({[`S${slot}`]: text.text[0]})
     } catch (error) {
         console.warn(error)
     }
@@ -18,7 +18,7 @@ async function sendMSG (msg,pld=undefined) {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     if (!tab || !tab.url) return;
-    if (/^(chrome||edge):\/\//.test(tab.url)){console.warn("Cannot inject content.js into privileged pages."); return;}
+    if (/^(chrome||edge:\/\/)/.test(tab.url)){console.warn("Cannot inject content.js into privileged pages."); return;}
 
     try {
         const response = await chrome.tabs.sendMessage(tab.id, {msg:msg,payload:pld});

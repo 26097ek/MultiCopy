@@ -30,10 +30,20 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 });
 
 function copy() {
-    const text = window.getSelection().toString();
-    console.log("Copied text: " + text);
-    return text;
-}
+    const active = document.activeElement;
+    if (active.tagName!=="IFRAME")console.log(active.tagName);
+    if (active && /INPUT|TEXTAREA/.test(active.tagName)){
+        const text = active.value.substring(active.selectionStart,active.selectionEnd);
+        console.log(text);
+        return(text);
+    } else if (active.tagName === "IFRAME"){
+        return;
+    } else {
+        const text = window.getSelection().toString();
+        console.log("Copied text: " + text);
+        return text;
+    };
+};
 
 async function view(text) {
     const X = window.devicePixelRatio * mouse.x
@@ -57,7 +67,7 @@ window.addEventListener("mousemove", (e) => {
     const extHost = document.createElement("div")
     extHost.id = "MtCp_Shadow-Root"
     document.body.appendChild(extHost)
-    const shadow = extHost.attachShadow({ mode: "closed" })
+    const shadow = extHost.attachShadow({ mode: "open" })
     shadow.innerHTML = `
     <style>
         span{ 
